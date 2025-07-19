@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Git Workflow Visual Guide</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background: #f4f7fa; color: #222; }
+    h2 { border-bottom: 2px solid #2980b9; color: #2980b9; }
+    .cmd { background: #222; color: #fff; padding: 0.5em 1em; border-radius: 4px; display: inline-block; }
+    .step { background: #eaf6fb; margin: 1.5em 0; border-left: 6px solid #3498db; padding: 1em 1.5em; border-radius: 4px; }
+    .diagram { background: #fff; border: 1px solid #bbe1fa; padding: 1em; margin: 1em 0; border-radius: 4px; }
+    .conflict { background: #ffe8e8; border-left: 4px solid #c0392b; color: #c0392b; padding: 1em; margin-top: 1em; border-radius: 4px; }
+    .success { background: #eaffec; border-left: 4px solid #27ae60; color: #27ae60; padding: 1em; margin-top: 1em; border-radius: 4px; }
+    .note { font-size: 0.9em; color: #555; }
+    .pullreq { background: #d0edff; border-left: 4px solid #2980b9; color: #2876a7; padding: 1em; margin-top: 1em; border-radius: 4px;}
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px;}
+  </style>
+</head>
+<body>
+
+  <h1>Git Workflow: Visual Examples</h1>
+  <p class="note">Follow these examples to understand how to manage code using Git, inspired by a practical walkthrough[1].</p>
+
+  <h2>1. Checking Status</h2>
+  <div class="step">
+    <span class="cmd">git status</span>
+    <p>See the current state of files—what's modified, staged, or untracked.</p>
+    <div class="diagram">
+      <pre>
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        index.html
+
+nothing added to commit but untracked files present
+      </pre>
+    </div>
+  </div>
+
+  <h2>2. Adding Files</h2>
+  <div class="step">
+    <span class="cmd">git add index.html</span><br>
+    or add everything:<br>
+    <span class="cmd">git add .</span>
+    <p>This moves files to the staging area for commit.</p>
+    <div class="diagram">
+      <img src="https://raw.githubusercontent.com/git-guides/images/master/git-add.png" alt="Git add visual" width="320"/>
+      <p class="note">Files move from working directory to staging area.</p>
+    </div>
+  </div>
+
+  <h2>3. Committing Changes</h2>
+  <div class="step">
+    <span class="cmd">git commit -m "Added index.html"</span>
+    <p>Saves staged changes with a message describing what's changed.</p>
+    <div class="diagram">
+      <img src="https://raw.githubusercontent.com/git-guides/images/master/git-commit.png" alt="Git commit visual" width="340"/>
+      <p class="note">Staged changes are recorded in the project history.</p>
+    </div>
+  </div>
+
+  <h2>4. Pushing to Remote</h2>
+  <div class="step">
+    <span class="cmd">git push</span>
+    <p>Sends committed changes from your local repository to the remote repository (GitHub, GitLab, etc.).</p>
+    <div class="diagram">
+      <img src="https://raw.githubusercontent.com/git-guides/images/master/git-push.png" alt="Git push visual" width="320"/>
+      <p class="note">Changes are now visible to collaborators.</p>
+    </div>
+  </div>
+
+  <h2>5. Pulling Latest Changes</h2>
+  <div class="step">
+    <span class="cmd">git pull</span>
+    <p>Fetches and integrates changes from remote to your local repository. Keeps your local code up-to-date.</p>
+    <div class="diagram">
+      <img src="https://raw.githubusercontent.com/git-guides/images/master/git-pull.png" alt="Git pull visual" width="320"/>
+    </div>
+  </div>
+
+  <h2>6. Merging Branches</h2>
+  <div class="step">
+    <span class="cmd">git merge qa</span>
+    <p>Merges the <code>qa</code> branch into your current branch (e.g., <code>master</code>).</p>
+    <div class="diagram">
+      <img src="https://raw.githubusercontent.com/git-guides/images/master/git-merge.png" alt="Git merge visual" width="340"/>
+      <p class="note">History of branches gets combined at the merge point.</p>
+    </div>
+  </div>
+
+  <h2>7. Merge Conflicts</h2>
+  <div class="conflict">
+    <strong>Merge Conflict Example:</strong><br>
+    You and a collaborator both edited <code>index.html</code> on different branches.<br>
+    Git can't resolve which changes to keep. The file shows:
+    <pre>
+  &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  &lt;h1 style="background:green;"&gt;Welcome!&lt;/h1&gt;
+  =======
+  &lt;h1 style="background:yellow;"&gt;Welcome to QA&lt;/h1&gt;
+  &gt;&gt;&gt;&gt;&gt;&gt;&gt; qa
+    </pre>
+    <em>To resolve: Edit the file, choose the correct lines, remove markers, add &amp; commit again.</em>
+  </div>
+
+  <h2>8. Pull Requests (PR)</h2>
+  <div class="pullreq">
+    <strong>What is a Pull Request?</strong>
+    <p>Proposes merging your branch (e.g., <code>qa</code>) into another branch (e.g., <code>master</code>). Collaboration and code review happen here.</p>
+    <ul>
+      <li>Open PR in GitHub/GitLab.</li>
+      <li>Reviewers give feedback, approve/request changes.</li>
+      <li>On approval, PR can be merged into the target branch.</li>
+    </ul>
+    <img src="https://raw.githubusercontent.com/git-guides/images/master/pull-request.png" alt="Pull request visual" width="340"/>
+  </div>
+
+  <h2>Quick Reference Table</h2>
+  <table border="1" cellpadding="6" style="background:#fff;">
+    <tr><th>Git Command</th><th>Purpose</th></tr>
+    <tr><td><code>git status</code></td><td>Show the working directory and staging area status</td></tr>
+    <tr><td><code>git add [file]</code></td><td>Stage files for the next commit</td></tr>
+    <tr><td><code>git commit -m "msg"</code></td><td>Commit staged changes with message</td></tr>
+    <tr><td><code>git push</code></td><td>Upload commits to remote repository</td></tr>
+    <tr><td><code>git pull</code></td><td>Fetch and merge changes from remote</td></tr>
+    <tr><td><code>git merge [branch]</code></td><td>Combine another branch into your current branch</td></tr>
+  </table>
+
+  <h2>Conclusion</h2>
+  <p>
+    Practicing these Git commands will make your code collaboration smooth, organized, and safer against loss.
+    For detailed walkthroughs and real-life steps, revisit training sessions like the one described above[1].
+  </p>
+
+</body>
+</html>
